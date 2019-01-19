@@ -1,16 +1,17 @@
-﻿!/usr/bin/env python
+﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 ################################################################################
-#
 #  Fco. Javier Rodriguez Navarro 
+#  https://www.pinguytaz.net
 #
 #  info_DNS_WHO.py:  Recoleccion de información de los DNS, Whois y servidores 
-#                    de correo, recibe dos parametros que son los dominios a
-#                    investigar.
+#                    de correo, recibe parametros como dominios
 #
 #  Historico:
-#     - 2 Enero 2019   V1:  Creación como practica CHEE
+#     - 2 Enero 2019	V1:	Creación como practica CHEE
+#     - 19 Febrero 2019 V1.1:	Se prepara para cualquier numero de dominios
+#                               despues de la entrega en CHEE.
 #
 #  Librerias
 #       DNSPython 	http://www.dnspython.org/
@@ -23,18 +24,16 @@ import pythonwhois
 def main(argv):
    dom = []
 
-   if len(argv) != 3: # Tienen que llegar dos parametros.
-      print "Uso: python info_DNS_WHO.py dominio1 dominio2"
+   if len(argv) < 2: # Se tienen que poner dominios
+      print "Uso: python info_DNS_WHO.py <dominios>"
    else:
       for dominio in argv[1:]:   # Recorremos los dos dominios de los parametros.
          print '\033[0;32mAnalisis: \033[0;42m%s\033[0;m\033[0;32m ******* \033[0;m' % dominio
-
          dom = info_dns(dominio)   # Información DNS y Whois de los dominios mx
-
          for domMX in dom:    # Recorremos para busca WHOIS los dominios encontrados en MX
             info_whois(domMX)      # Se busca la informacion WHOIS de los dominios MX encontrados.
 
-         #info_whois(dominio)  # Información del dominio.
+         info_whois(dominio)  # Información del dominio.
          print '\n\n'
     
 ################################################################################
