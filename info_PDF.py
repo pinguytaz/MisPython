@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 ################################################################################
-#
 #  Fco. Javier Rodriguez Navarro 
+#  https://www.pinguytaz.net
 #
 #  info_PDF.py:  Programa que recoge todos los ficheros(PDF) del directorio 
 #                actual, si van si parametros y sino el directorio marcado en 
