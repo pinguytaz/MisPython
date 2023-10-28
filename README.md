@@ -10,10 +10,11 @@ Practicas de python del curso CHEE.
 
 Pequeñas herramientas que nos ayudan en nuestros estudios de Pentesting:  
 
-* **busca_Usuario.py**: Nos permite realizar llamadas POST a una pagina introducióndo los usuarios de un fichero y una clave que normalmente no encontrara para localizar usuarios validos.
+* **busca_Usuario.py**: Nos permite realizar llamadas POST a una pagina introducióndo los usuarios de un fichero y una clave que normalmente no encontrara para localizar usuarios validos.  
+<BR>  
 
-<BR>
-**Ejemplo**
+**Ejemplo**  
+
 
 *python busca_Usuario.py http://192.168.56.101/wp-login.php "Invalid username" log pwd usu.txt*
 
