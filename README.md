@@ -2,13 +2,14 @@
 
 Script de Python, pequeños, que no podemos considerarlos un proyecto pero que nos pueden resolver problemas:
 
-Todo empieza con las practicas de python del curso CHEE.
+Practicas de python del curso CHEE.  
+
 * **info_PDF.py**:  Script para obtener Metadatos de ficheros PDF, la idea es ir aumentando el tipo de ficheros.
 * **info_DNS_WHO.py**:  Script para obtener información del DNS y WHO.
-* **info_IP.py**:  Script para obtener información de una lista de IPs y la nuestra.  Preparado para python3
+<BR>
 
+Pequeñas herramientas que nos ayudan en nuestros estudios de Pentesting:  
 
-Y continua con pequeñas herramientas que nos ayudan en nuestros estudios de Pentesting:
 * **busca_Usuario.py**: Nos permite realizar llamadas POST a una pagina introducióndo los usuarios de un fichero y una clave que normalmente no encontrara para localizar usuarios validos.
 
 **Ejemplo**
@@ -24,6 +25,9 @@ Y continua con pequeñas herramientas que nos ayudan en nuestros estudios de Pen
 4.- Variable de la clave que se auto rellena.
 
 5.- Fichero con usuarios, es opcional y el fichero por defecto es DicUsu.txt
+<BR>
+
+* **info_IP.py**:  Script para obtener información de una lista de IPs y la nuestra.  Preparado para python3
 
 
 
