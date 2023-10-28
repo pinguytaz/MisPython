@@ -12,6 +12,7 @@ Pequeñas herramientas que nos ayudan en nuestros estudios de Pentesting:
 
 * **busca_Usuario.py**: Nos permite realizar llamadas POST a una pagina introducióndo los usuarios de un fichero y una clave que normalmente no encontrara para localizar usuarios validos.
 
+<BR>
 **Ejemplo**
 
 *python busca_Usuario.py http://192.168.56.101/wp-login.php "Invalid username" log pwd usu.txt*
@@ -25,6 +26,7 @@ Pequeñas herramientas que nos ayudan en nuestros estudios de Pentesting:
 4.- Variable de la clave que se auto rellena.
 
 5.- Fichero con usuarios, es opcional y el fichero por defecto es DicUsu.txt
+
 <BR>
 
 * **info_IP.py**:  Script para obtener información de una lista de IPs y la nuestra.  Preparado para python3
