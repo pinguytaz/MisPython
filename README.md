@@ -32,5 +32,6 @@ Pequeñas herramientas que nos ayudan en nuestros estudios de Pentesting:
 
 * **info_IP.py**:  Script para obtener información de una lista de IPs y la nuestra.  Preparado para python3
 
+* **VolcadoTAP.py**:  Script para ver información grabada en ficheros .TAP (Cinta ZXSpectrum) y descargar su contenido y sea programas, CODE, SCREE$, DATA (Matrices)
 
 
