@@ -18,6 +18,7 @@
 #
 #  Historico:
 #     - 25 Agosto 2025	V1:	Creación.
+#     - 28 Agosto 2025	V1.01:	Se mejora el volcado de Basic, obteniendo la longitud de solo BASIC del par2.
 #
 #  Librerias
 ################################################################################
@@ -118,23 +119,23 @@ def main(argv):
                 if ficheroCinta == info_cabecera.get('nombre') and bloque[0] == 0xFF:   # Es un bloque de datos al que informar
                     # Segun el tipo de grabación indicada por el bloque cabecera tomamos una u otra información
                     if tipo == 0:  # Prog Basic y variables    SAVE "programa"
-                         print(f"Programa BASIC: {info_cabecera.get('nombre')} en fichero: {ficheroTAP} ")
-                         print(f"-----------------------------------------------------------------------")
-                         volcadoBasic(bloque,info_cabecera.get('par1'))
+                        print(f"Programa BASIC: {info_cabecera.get('nombre')} en fichero: {ficheroTAP} ")
+                        print(f"-----------------------------------------------------------------------")
+                        print(f"Long bloque: {len(bloque)} longitud {info_cabecera.get('longitud')} lonsinvar {info_cabecera.get('par2')}")
+                        volcadoBasic(bloque, info_cabecera.get('par2'), info_cabecera.get('par1'))
                     elif tipo == 1:  # Matriz numerica     SAVE "matrices" DATA b()   Array de numeros 
-                         print(f"Datos de una matriz numerica: {info_cabecera.get('nombre')} en fichero: {ficheroTAP} ")
-                         print(f"-------------------------------------------------------------------------------------")
-                         volcadoMatrizN(bloque)
+                        print(f"Datos de una matriz numerica: {info_cabecera.get('nombre')} en fichero: {ficheroTAP} ")
+                        print(f"-------------------------------------------------------------------------------------")
+                        volcadoMatrizN(bloque)
                     elif tipo == 2:  # Matriz caracteres  SAVE "matriz$" DATA b$()
-                         print(f"Datos de una matriz Alfanumerica: {info_cabecera.get('nombre')} en fichero: {ficheroTAP} ")
-                         print(f"--------------------------------------------------------------------------------------")
-                         volcadoMatrizA(bloque)
+                        print(f"Datos de una matriz Alfanumerica: {info_cabecera.get('nombre')} en fichero: {ficheroTAP} ")
+                        print(f"--------------------------------------------------------------------------------------")
+                        volcadoMatrizA(bloque)
                     elif tipo == 3:  # SAVE "bytes" CODE 16384,6912  SAVE "pantalla" SCREEN$    Bytes
                          print(f"Volcamos los bytes de: {info_cabecera.get('nombre')} en fichero: {ficheroTAP} NOTA: <CHAR> si no imprimible .(COD)")
                          print(f"-----------------------------------------------------------------------------------------------")
                          volcadoBytes(bloque,info_cabecera.get('par1'),info_cabecera.get('longitud'))
-                    else:
-                         # tipo == 2:  # Matriz alfanumerica  SAVE "matriz$" DATA b$()
+                    else:  # Segun Especificación ZXSpectrum 48K solo son de 0-3
                          print(f" Tipo {tipo}-->{info_cabecera.get('tipo')} de: {info_cabecera.get('nombre')} fichero: {ficheroTAP} no implementado")
 
             bloque_index += 1
@@ -151,6 +152,7 @@ def main(argv):
 #   En programa Basic si menor o igual a 32768  se grabo con LINE e indica la linea de inicio
 #   En CODE indica el inicio de carga
 # <16-17>  Parametro 2
+#   Longitud del programa sin variables
 ##############################################################################################
 def leer_cabecera(bloque):
     tipo = bloque[1]
@@ -206,19 +208,19 @@ def volcadoBytes(bloque,inicio,longitud):
     print("\n")
 
 ##############################################################################################
-# volcadoBasic(bloque, linea)  Se pasa el bloque y el posible numero de linea donde se debe iniciar
+# volcadoBasic(bloque, longSoloProg linea)  Se pasa el bloque, la longitud sin variables  y el posible numero de linea donde se debe iniciar
 #       Imprime el listado Basic
 #       Para Cada linea: <Numlinea(2)> <long linea (1)> <TOKENS, var, etc>  <0x0D fin linea>
 #                        <Tabla de variables>
 ##############################################################################################
-def volcadoBasic(bloque, linea):
+def volcadoBasic(bloque, longSoloProg, linea):
     if linea <= 32768:
          print(f"Volcado del programa BASIC que se iniciaria en la linea: {linea}")
     else:
          print("Volcado del programa BASIC")
 
     pos = 1
-    while pos < len(bloque):
+    while pos < longSoloProg:
         num_linea = (bloque[pos] *256 + bloque[pos+1])
         longitud = int.from_bytes(bloque[pos+2:pos+3], 'little')
         # Extraer contenido de la línea
@@ -226,10 +228,6 @@ def volcadoBasic(bloque, linea):
         finlinea = bloque[pos+longitud+3]
         pos = pos + longitud +4
         
-        if finlinea != 0x0D:
-           #print("Esta no es linea programa, inician variables")
-           break
-
         # Imprimir  la linea
         contenidoTexto = convierteATexto(contenido)
         print(f"{num_linea} {contenidoTexto}")
