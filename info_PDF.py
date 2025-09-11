@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!./envPruebas/bin/python
 # -*- coding: utf-8 -*-
 ################################################################################
 #  Fco. Javier Rodriguez Navarro 
@@ -11,15 +11,18 @@
 #
 #  Historico:
 #     - 4 Enero 2019    V1: Creación para curso CHEE.
+#     - 11 Septiembre 2025 v1.1: Se actualiza la libreria a la nueva pypdf y python3
+#				 Cambios basados en https://pypdf.readthedocs.io/en/stable/meta/changelog-v1.html	
 #
 #  Librerias
-#       PyPDF2		https://pythonhosted.org/PyPDF2/ (pip install PyPDF2
+#       (Obsoleta cambiamos a pypdf) PyPDF2		https://pythonhosted.org/PyPDF2/ (pip install PyPDF2
+#	pypdf https://pypdf.readthedocs.io/en/stable/index.htmL
 #
 ################################################################################
 import sys
 import os 
 import datetime 
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from pypdf import PdfReader, PdfWriter
 
 def main(argv):
    directorio = '.'
@@ -27,7 +30,7 @@ def main(argv):
 
    argumentos = len(argv)-1
    if argumentos > 1:
-      print "Uso: python %s [directorio]" % argv[0]
+      print ("Uso: python %s [directorio]" % argv[0])
       exit(-1)
    elif argumentos == 1:
       directorio = argv[1]
@@ -46,11 +49,13 @@ def main(argv):
       campo = {}
       campo["Fichero"] = fichero # Nombre del fichero.
 
-      pdfFile = PdfFileReader(file(fichero, 'rb'))  # Abrimos el fichero.
-      campo["Paginas"] = pdfFile.getNumPages()
-      campo["TamPagina"] = pdfFile.getPageLayout()
+      pdfFile = PdfReader(fichero)  # Abrimos el fichero.
 
-      docInfo = pdfFile.getDocumentInfo() # Diccionario con la informacion
+      campo["Paginas"] = pdfFile.get_num_pages()
+
+      campo["TamPagina"] = pdfFile.page_layout
+
+      docInfo = pdfFile.metadata
 
       campo["Titulo"] = docInfo.get("/Title")
       campo["Autor"] = docInfo.get("/Author")
@@ -77,28 +82,30 @@ def main(argv):
 #                    por parametro en un diccionario.
 ################################################################################
 def info_PDF(docInfo):
-   print "\033[4;32mMETADATOS fichero:\033[0;32m %s\033[0;m" % docInfo.get("Fichero")
-   print "\033[4;34mTitulo:\033[0;m %s" % docInfo.get("Titulo")
-   print "\033[4;34mAutor:\033[0;m %s" % docInfo.get("Autor")
-   print "\033[4;34mResumen:\033[0;m %s" % docInfo.get("Resumen")
-   print "\033[4;34mPalabras clave:\033[0;m %s" % docInfo.get("Claves")
-   print "\033[4;34mNumero de paginas:\033[0;m %s\n" % docInfo.get("Paginas")
+   print ("\033[4;32mMETADATOS fichero:\033[0;32m %s\033[0;m" % docInfo.get("Fichero"))
+   print ("\033[4;34mTitulo:\033[0;m %s" % docInfo.get("Titulo"))
+   print ("\033[4;34mAutor:\033[0;m %s" % docInfo.get("Autor"))
+   print ("\033[4;34mResumen:\033[0;m %s" % docInfo.get("Resumen"))
+   print ("\033[4;34mPalabras clave:\033[0;m %s" % docInfo.get("Claves"))
+   print ("\033[4;34mNumero de paginas:\033[0;m %s\n" % docInfo.get("Paginas"))
 
    if docInfo.get("FCreacion") != "":
-      print "\033[4;34mFecha Creacion:\033[0;m %s" % fechaPDF(docInfo.get("FCreacion"))
+      print ("\033[4;34mFecha Creacion:\033[0;m %s" % fechaPDF(docInfo.get("FCreacion")))
    if docInfo.get("FModificacion") != "":
-      print "\033[4;34mUltima Modificacion:\033[0;m %s\n" % fechaPDF(docInfo.get("FModificacion"))
+      print ("\033[4;34mUltima Modificacion:\033[0;m %s\n" % fechaPDF(docInfo.get("FModificacion")))
 
-   print "\033[4;34mAplicacion:\033[0;m %s" % docInfo.get("Aplicacion")
-   print "\033[4;34mCreado:\033[0;m %s\n" % docInfo.get("Creador")
+   print ("\033[4;34mAplicacion:\033[0;m %s" % docInfo.get("Aplicacion"))
+   print ("\033[4;34mCreado:\033[0;m %s\n" % docInfo.get("Creador"))
 
 
 ################################################################################
 #  fechaPDF(fecha) Descompone formato de fecha PDF "D:YYYYMMDDHHmmSSOHH'mmOHH'mm"
 #                  y retorna cadema "dd/mm/aaaa hh:mm"
 ################################################################################
-def fechaPDF(fecha):
-   
+def fechaPDF(byteFecha):
+
+   fecha = byteFecha.decode("ascii")
+
    #Fecha
    dia =  fecha[8:10]
    mes =  fecha[6:8]
