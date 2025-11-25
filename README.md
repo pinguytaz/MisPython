@@ -34,8 +34,6 @@ Pequeñas herramientas que nos ayudan en nuestros estudios de Pentesting:
 
 * **VolcadoTAP.py**:  Script para ver información grabada en ficheros .TAP (Cinta ZXSpectrum) y descargar su contenido y sea programas, CODE, SCREE$, DATA (Matrices)
 
-* **/R200_RFIDUHF**:  Clase R200 para la lectura del lector RFID-UHF modelo M100 26dBm 
-
 
 
 

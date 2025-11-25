@@ -51,7 +51,7 @@ def main(argv):
     print("VolcadoTAP (c) 2025 www.pinguytaz.net")
 
     if len(argv) < 2 or len(argv) > 3: # Parametros erroneos
-        print ("Uso: python VolcadoTAP.py.py <FicheroTAP> [<FicheroTAP>]")
+        print ("Uso: python VolcadoTAP.py.py <FicheroTAP> [<FicheroCinta>]")
         return -1
     else:
          if len(argv) == 2: 
